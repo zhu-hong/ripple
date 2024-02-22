@@ -1,1 +1,1 @@
-# D@M Ripple Component
+# Ripple Component

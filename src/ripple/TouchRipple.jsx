@@ -7,13 +7,13 @@ const DURATION = 550
 const DELAY_RIPPLE = 80
 
 const rippleClasses = {
-  'root': 'd2mripple-root',
-  'ripple': 'd2mripple-ripple',
-  'rippleVisible': 'd2mripple-ripple-visible',
-  'ripplePulsate': 'd2mripple-ripple-pulsate',
-  'child': 'd2mripple-child',
-  'childLeaving': 'd2mripple-child-leaving',
-  'childPulsate': 'd2mripple-child-pulsate',
+  'root': 'ripple-root',
+  'ripple': 'ripple-wrap',
+  'rippleVisible': 'ripple-wrap-visible',
+  'ripplePulsate': 'ripple-wrap-pulsate',
+  'child': 'ripple-child',
+  'childLeaving': 'ripple-child-leaving',
+  'childPulsate': 'ripple-child-pulsate',
 }
 
 const enterKeyframe = keyframes`
