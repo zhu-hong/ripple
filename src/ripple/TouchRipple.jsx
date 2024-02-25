@@ -51,11 +51,11 @@ const pulsateKeyframe = keyframes`
 `
 
 const RippleRoot = styled('span', forwardRef)`
-  overflow: hidden;
-  pointerEvents: none;
   position: absolute;
-  zIndex: 0;
   inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
 `
 
 const RippleAnimated = styled(RippleAnimate)`
@@ -143,7 +143,6 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
     (event = {}, options = {}, cb = () => {}) => {
       const {
         center = centerProp || options.pulsate || false,
-        fakeElement = false,
       } = options
 
       if(event.type === 'mousedown' && ignoringMouseDown.current) {
@@ -155,7 +154,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
         ignoringMouseDown.current = true
       }
 
-      const element = fakeElement ? null : container.current
+      const element = container.current
       const rect = element ? element.getBoundingClientRect() : { width: 0, height: 0, left: 0, top: 0 }
 
       let rippleX = 0
@@ -206,7 +205,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
     start({}, { pulsate: true })
   }, [start])
 
-  const stop = useCallback((event, cb) => {
+  const stop = useCallback((event = {}, cb = () => {}) => {
     clearTimeout(startTimer.current)
 
     if(event.type === 'touchend' && startTimerCommit.current) {
@@ -236,7 +235,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
       stop,
       pulsate,
     }),
-    [pulsate, start, stop],
+    [start, stop, pulsate],
   )
 
   return (

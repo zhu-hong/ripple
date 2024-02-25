@@ -1,12 +1,10 @@
 import { useRef, useState, useMemo, useEffect, useLayoutEffect } from 'react'
 
-const useEnhancedEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
-
 const useEventCallback = (fn) => {
   const ref = useRef(fn)
-  useEnhancedEffect(() => {
+  useLayoutEffect(() => {
     ref.current = fn
-  })
+  }, [fn])
   return useRef((...args) => (0, ref.current)(...args)).current
 }
 

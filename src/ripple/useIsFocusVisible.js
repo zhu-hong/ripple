@@ -83,8 +83,8 @@ export const useIsFocusVisible = () => {
   const handleBlurVisible = () => {
     if(isFocusVisibleRef.current) {
       hadFocusVisibleRecently = true
-      window.clearTimeout(hadFocusVisibleRecentlyTimeout)
-      hadFocusVisibleRecentlyTimeout = window.setTimeout(() => {
+      clearTimeout(hadFocusVisibleRecentlyTimeout)
+      hadFocusVisibleRecentlyTimeout = setTimeout(() => {
         hadFocusVisibleRecently = false
       }, 100)
 

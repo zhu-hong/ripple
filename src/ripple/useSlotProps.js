@@ -1,10 +1,10 @@
-export const extractEventHandlers = (object, excludeKeys = []) => {
+export const extractEventHandlers = (object) => {
   if(object === undefined) return {}
 
   const result = {}
 
   Object.keys(object)
-    .filter((prop) => prop.match(/^on[A-Z]/) && typeof object[prop] === 'function' && !excludeKeys.includes(prop))
+    .filter((prop) => prop.match(/^on[A-Z]/) && typeof object[prop] === 'function')
     .forEach((prop) => { result[prop] = object[prop] })
 
   return result
@@ -23,7 +23,7 @@ export const omitEventHandlers = (object) => {
 }
 
 export const useSlotProps = (parameters) => {
-  const { getSlotProps, additionalProps, externalForwardedProps, className } = parameters
+  const { getSlotProps, additionalProps, externalForwardedProps } = parameters
 
   const eventHandlers = extractEventHandlers(externalForwardedProps)
   const otherPropsWithoutEventHandlers = omitEventHandlers(externalForwardedProps)
@@ -32,11 +32,9 @@ export const useSlotProps = (parameters) => {
 
   const props = {
     ...internalSlotProps,
-    ...additionalProps,
     ...otherPropsWithoutEventHandlers,
+    ...additionalProps,
   }
-
-  props.className = className
 
   return props
 }

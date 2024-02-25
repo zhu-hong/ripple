@@ -9,7 +9,7 @@ import clsx from 'clsx'
 
 setup(createElement)
 
-export const RippleRoot = styled('button', forwardRef)`
+const RippleRoot = styled('button', forwardRef)`
   position: relative;
 `
 
@@ -17,6 +17,7 @@ export const Ripple = forwardRef((props, ref) => {
   const {
     children,
     as = 'button',
+    type = 'button',
     disabled = false,
     centerRipple = false,
     focusRipple = false,
@@ -32,6 +33,7 @@ export const Ripple = forwardRef((props, ref) => {
   const buttonRef = useRef(null)
   const handleRef = useForkRef(buttonRef, ref)
   const { focusVisible, getRootProps } = useButton({
+    type,
     disabled,
     focusableWhenDisabled,
     tabIndex,
@@ -51,26 +53,24 @@ export const Ripple = forwardRef((props, ref) => {
     if(focusVisible && focusRipple && !disableRipple && rippleRef.current) {
       rippleRef.current.pulsate()
     }
-  }, [disableRipple, focusRipple, focusVisible])
+  }, [focusVisible, focusRipple, disableRipple, rippleRef.current])
 
   const rootProps = useSlotProps({
-    getSlotProps: (otherHandlers) => ({
-      ...getRootProps({
-        ...otherHandlers,
-        ...getRippleHandlers(props),
-      }),
+    getSlotProps: (otherHandlers) => getRootProps({
+      ...otherHandlers,
+      ...getRippleHandlers(props),
     }),
     externalForwardedProps: other,
     additionalProps: {
       as,
+      className: clsx(props.className, disabled && disabledClassName, focusVisible && focusVisibleClassName),
     },
-    className: clsx(props.className, disabled && disabledClassName, focusVisible && focusVisibleClassName),
   })
 
   return (
     <RippleRoot {...rootProps}>
       {children}
-      {enableTouchRipple ? (
+      {enableTouchRipple ? (  
         <TouchRipple center={centerRipple} ref={handleRippleRef} />
       ) : null}
     </RippleRoot>

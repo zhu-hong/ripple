@@ -106,57 +106,51 @@ export const useButton =(params) => {
     }
   }
 
-  const createHandleKeyDown =
-    (otherHandlers) => (event) => {
-      if(otherHandlers.onKeyDown) {
-        otherHandlers.onKeyDown(event)
-      }
-
-      if(event.defaultMuiPrevented) return
-
-      if(event.target === event.currentTarget && !isNativeButton() && event.key === ' ') {
-        event.preventDefault()
-      }
-
-      if(event.target === event.currentTarget && event.key === ' ' && !disabled) {
-        setActive(true)
-      }
-
-      if(
-        event.target === event.currentTarget
-        && !isNativeButton()
-        && event.key === 'Enter'
-        && !disabled
-      ) {
-        if(otherHandlers.onClick) {
-          otherHandlers.onClick(event)
-        }
-        event.preventDefault()
-      }
+  const createHandleKeyDown = (otherHandlers) => (event) => {
+    if(otherHandlers.onKeyDown) {
+      otherHandlers.onKeyDown(event)
     }
 
-  const createHandleKeyUp =
-    (otherHandlers) => (event) => {
-      if(event.target === event.currentTarget) {
-        setActive(false)
-      }
+    if(event.target === event.currentTarget && !isNativeButton() && event.key === ' ') {
+      event.preventDefault()
+    }
 
-      if(otherHandlers.onKeyUp) {
-        otherHandlers.onKeyUp(event)
-      }
+    if(event.target === event.currentTarget && event.key === ' ' && !disabled) {
+      setActive(true)
+    }
 
-      if(
-        event.target === event.currentTarget &&
-        !isNativeButton() &&
-        !disabled &&
-        event.key === ' ' &&
-        !event.defaultMuiPrevented
-      ) {
-        if(otherHandlers.onClick) {
-          otherHandlers.onClick(event)
-        }
+    if(
+      event.target === event.currentTarget
+      && !isNativeButton()
+      && event.key === 'Enter'
+      && !disabled
+    ) {
+      if(otherHandlers.onClick) {
+        otherHandlers.onClick(event)
+      }
+      event.preventDefault()
+    }
+  }
+
+  const createHandleKeyUp = (otherHandlers) => (event) => {
+    if(event.target === event.currentTarget) {
+      setActive(false)
+    }
+
+    if(otherHandlers.onKeyUp) {
+      otherHandlers.onKeyUp(event)
+    }
+
+    if(
+      event.target === event.currentTarget
+      && !isNativeButton()
+      && !disabled
+    ) {
+      if(otherHandlers.onClick) {
+        otherHandlers.onClick(event)
       }
     }
+  }
 
   const updateHostElementName = useCallback((instance) => {
     setHostElementName(instance ? instance.tagName : '')
