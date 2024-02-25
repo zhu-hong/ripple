@@ -1,6 +1,6 @@
-import { createElement, forwardRef, useRef, useEffect } from 'react'
+import React, { createElement, forwardRef, useRef, useEffect } from 'react'
 import { styled, setup } from 'goober'
-import { TouchRipple } from './TouchRipple'
+import { TouchRipple } from './TouchRipple.jsx'
 import { useTouchRipple } from './useTouchRipple'
 import { useButton } from './useButton'
 import { useForkRef } from './useForkRef'
@@ -13,25 +13,26 @@ const RippleRoot = styled('button', forwardRef)`
   position: relative;
 `
 
-export const Ripple = forwardRef((props, ref) => {
+export const Ripple = (props) => {
   const {
     children,
     as = 'button',
     type = 'button',
     disabled = false,
-    centerRipple = false,
-    focusRipple = false,
     disableRipple = false,
     disableTouchRipple = false,
+    focusRipple = false,
+    centerRipple = false,
     focusableWhenDisabled = false,
     disabledClassName,
     focusVisibleClassName,
     tabIndex = 0,
+    sx,
     ...other
   } = props
 
   const buttonRef = useRef(null)
-  const handleRef = useForkRef(buttonRef, ref)
+  const handleRef = useForkRef(buttonRef)
   const { focusVisible, getRootProps } = useButton({
     type,
     disabled,
@@ -69,11 +70,11 @@ export const Ripple = forwardRef((props, ref) => {
   })
 
   return (
-    <RippleRoot {...rootProps}>
+    <RippleRoot {...rootProps} style={sx}>
       {children}
-      {enableTouchRipple ? (  
+      {enableTouchRipple ? (
         <TouchRipple center={centerRipple} ref={handleRippleRef} />
       ) : null}
     </RippleRoot>
   )
-})
+}

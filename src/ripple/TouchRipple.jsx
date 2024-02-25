@@ -1,7 +1,7 @@
-import { forwardRef, useRef, useCallback, useState, useEffect, useImperativeHandle } from 'react'
+import React, { forwardRef, useRef, useCallback, useState, useEffect, useImperativeHandle } from 'react'
 import { styled, keyframes } from 'goober'
 import { TransitionGroup } from 'react-transition-group'
-import RippleAnimate from './RippleAnimate'
+import RippleAnimate from './RippleAnimate.jsx'
 
 const DURATION = 550
 const DELAY_RIPPLE = 80

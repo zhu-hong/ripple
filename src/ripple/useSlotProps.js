@@ -23,7 +23,7 @@ export const omitEventHandlers = (object) => {
 }
 
 export const useSlotProps = (parameters) => {
-  const { getSlotProps, additionalProps, externalForwardedProps } = parameters
+  const { externalForwardedProps, getSlotProps, additionalProps } = parameters
 
   const eventHandlers = extractEventHandlers(externalForwardedProps)
   const otherPropsWithoutEventHandlers = omitEventHandlers(externalForwardedProps)

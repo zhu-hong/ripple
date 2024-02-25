@@ -59,9 +59,6 @@ export const useButton =(params) => {
       handleFocusVisible(event)
       if(isFocusVisibleRef.current === true) {
         setFocusVisible(true)
-        if(otherHandlers.onFocusVisible) {
-          otherHandlers.onFocusVisible(event)
-        }
       }
 
       if(otherHandlers.onFocus) {
@@ -198,8 +195,6 @@ export const useButton =(params) => {
       onMouseLeave: createHandleMouseLeave(externalEventHandlers),
       ref: handleRef,
     }
-    
-    delete props.onFocusVisible
 
     return props
   }
@@ -207,8 +202,5 @@ export const useButton =(params) => {
   return {
     getRootProps,
     focusVisible,
-    setFocusVisible,
-    active,
-    rootRef: handleRef,
   }
 }

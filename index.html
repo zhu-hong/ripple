@@ -9,6 +9,18 @@
     <style>
       button {
         -webkit-tap-highlight-color: transparent;
+        user-select: none;
+      }
+      .gogo {
+        background-color: transparent;
+      }
+      .gogo:hover {
+        transition: all .3 ease-in-out;
+        background-color: rgba(25, 118, 210, 0.04);
+      }
+      button:disabled {
+        opacity: .5;
+        cursor: not-allowed;
       }
     </style>
   </head>
