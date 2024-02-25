@@ -1,6 +1,6 @@
 {
-  "name": "ripple.react",
-  "private": true,
+  "name": "mui-ripple",
+  "private": false,
   "version": "1.0.0",
   "type": "module",
   "types": "Ripple.d.ts",
@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "prepublishOnly": "pnpm build"
   },
   "dependencies": {
     "clsx": "2.1.0",
