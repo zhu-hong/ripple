@@ -3,6 +3,7 @@
   "private": false,
   "version": "1.0.2",
   "type": "module",
+  "main": "dist/Ripple.js",
   "types": "Ripple.d.ts",
   "files": [
     "*.d.ts",
