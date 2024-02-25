@@ -30,7 +30,7 @@ const RippleAnimate = ({ className, classes, rippleX, rippleY, rippleSize, in: i
         clearTimeout(timeoutId)
       }
     }
-  }, [onExited, inProp, timeout])
+  }, [inPro, onExited, timeout])
 
   return <span className={rippleClassName} style={rippleStyles}>
     <span className={childClassName} />
