@@ -63,6 +63,7 @@ export const Ripple = forwardRef((props, ref) => {
     externalForwardedProps: other,
     additionalProps: {
       as,
+      type,
       className: clsx(props.className, disabled && disabledClassName, focusVisible && focusVisibleClassName),
     },
   })

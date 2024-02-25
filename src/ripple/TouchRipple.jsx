@@ -90,17 +90,8 @@ const RippleAnimated = styled(RippleAnimate)`
 export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
   const [ripples, setRipples] = useState([])
   const nextKey = useRef(0)
-  const rippleCallback = useRef(null)
 
   const container = useRef(null)
-
-  useEffect(() => {
-    if(rippleCallback.current) {
-      rippleCallback.current()
-      rippleCallback.current = null
-    }
-  }, [ripples])
-
 
   const ignoringMouseDown = useRef(false)
   const startTimer = useRef(null)
@@ -114,7 +105,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
   }, [])
 
   const startCommit = useCallback((params) => {
-    const { rippleX, rippleY, rippleSize, cb, pulsate } = params
+    const { rippleX, rippleY, rippleSize, pulsate } = params
 
     setRipples((oldRipples) => [
       ...oldRipples,
@@ -136,11 +127,10 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
       />
     ])
     nextKey.current += 1
-    rippleCallback.current = cb
   }, [])
 
   const start = useCallback(
-    (event = {}, options = {}, cb = () => {}) => {
+    (event = {}, options = {}) => {
       const {
         center = centerProp || options.pulsate || false,
       } = options
@@ -185,7 +175,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
       if(event.touches) {
         if(startTimerCommit.current === null) {
           startTimerCommit.current = () => {
-            startCommit({ rippleX, rippleY, rippleSize, cb, pulsate: options.pulsate })
+            startCommit({ rippleX, rippleY, rippleSize, pulsate: options.pulsate })
           }
           startTimer.current = setTimeout(() => {
             if(startTimerCommit.current) {
@@ -195,7 +185,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
           }, DELAY_RIPPLE)
         }
       } else {
-        startCommit({ rippleX, rippleY, rippleSize, cb, pulsate: options.pulsate })
+        startCommit({ rippleX, rippleY, rippleSize, pulsate: options.pulsate })
       }
     },
     [centerProp, startCommit, startTimer],
@@ -205,14 +195,14 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
     start({}, { pulsate: true })
   }, [start])
 
-  const stop = useCallback((event = {}, cb = () => {}) => {
+  const stop = useCallback((event = {}) => {
     clearTimeout(startTimer.current)
 
     if(event.type === 'touchend' && startTimerCommit.current) {
       startTimerCommit.current()
       startTimerCommit.current = null
       startTimer.current = setTimeout(() => {
-        stop(event, cb)
+        stop(event)
       })
       return
     }
@@ -225,7 +215,6 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
       }
       return oldRipples
     })
-    rippleCallback.current = cb
   }, [])
 
   useImperativeHandle(
