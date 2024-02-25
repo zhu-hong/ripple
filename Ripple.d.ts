@@ -65,7 +65,7 @@ interface RippleTypeMap<
   defaultComponent: RootComponent;
 }
 
-export type Ripple = OverridableComponent<{
+declare type Ripple = OverridableComponent<{
   props: {
     disabled?: boolean;
     disableRipple?: boolean;
@@ -79,3 +79,7 @@ export type Ripple = OverridableComponent<{
   };
   defaultComponent: 'button';
 }>;
+
+export {
+  Ripple,
+}
