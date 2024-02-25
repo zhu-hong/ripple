@@ -65,7 +65,7 @@ interface RippleTypeMap<
   defaultComponent: RootComponent;
 }
 
-declare type Ripple = OverridableComponent<{
+declare const Ripple: OverridableComponent<{
   props: {
     disabled?: boolean;
     disableRipple?: boolean;
