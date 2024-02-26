@@ -65,18 +65,22 @@ interface RippleTypeMap<
   defaultComponent: RootComponent;
 }
 
+export interface RippleProps {
+  disabled?: boolean;
+  disableRipple?: boolean;
+  disableTouchRipple?: boolean;
+  focusRipple?: boolean;
+  centerRipple?: boolean;
+  focusableWhenDisabled?: boolean;
+  disabledClassName?: string;
+  focusVisibleClassName?: string;
+  sx?: React.CSSProperties;
+  tabIndex?: number;
+  className?: string;
+}
+
 declare const Ripple: OverridableComponent<{
-  props: {
-    disabled?: boolean;
-    disableRipple?: boolean;
-    disableTouchRipple?: boolean;
-    focusRipple?: boolean;
-    centerRipple?: boolean;
-    focusableWhenDisabled?: boolean;
-    disabledClassName?: string;
-    focusVisibleClassName?: string;
-    sx?: React.CSSProperties;
-  };
+  props: RippleProps;
   defaultComponent: 'button';
 }>;
 

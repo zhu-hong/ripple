@@ -26,8 +26,8 @@ export const Ripple = (props) => {
     focusableWhenDisabled = false,
     disabledClassName,
     focusVisibleClassName,
-    tabIndex = 0,
     sx,
+    tabIndex = 0,
     ...other
   } = props
 
