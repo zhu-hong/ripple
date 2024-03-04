@@ -13,7 +13,7 @@ const RippleRoot = styled('button', forwardRef)`
   position: relative;
 `
 
-export const Ripple = (props) => {
+const Ripple = (props) => {
   const {
     children,
     as = 'button',
@@ -77,4 +77,8 @@ export const Ripple = (props) => {
       ) : null}
     </RippleRoot>
   )
+}
+
+export {
+  Ripple,
 }

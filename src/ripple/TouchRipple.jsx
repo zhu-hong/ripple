@@ -164,7 +164,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
         rippleSize = Math.sqrt((2 * rect.width ** 2 + rect.height ** 2) / 3)
 
         if(rippleSize % 2 === 0) {
-          rippleSize += 1
+          rippleSize -= 1
         }
       } else {
         const sizeX = Math.max(Math.abs((element ? element.clientWidth : 0) - rippleX), rippleX) * 2 + 2

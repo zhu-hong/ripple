@@ -1,4 +1,4 @@
-import { Ripple } from '../dist/Ripple.js'
+import { Ripple } from './ripple/Ripple'
 
 function App() {
   return <>
@@ -35,10 +35,10 @@ function App() {
       </div>
       <div>
         <Ripple
-          sx={{padding:'12px 24px',fontSize:22,fontWeight:500,color:'white',backgroundColor:'#FF9900'}}
+          centerRipple
           focusRipple
+          sx={{padding:'24px',fontSize:22,fontWeight:500,color:'black',backgroundColor:'#FF9900'}}
         >
-          按钮
         </Ripple>
       </div>
       <div>
