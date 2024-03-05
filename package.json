@@ -1,7 +1,7 @@
 {
   "name": "mui-ripple",
   "private": false,
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "main": "dist/Ripple.js",
   "types": "Ripple.d.ts",
