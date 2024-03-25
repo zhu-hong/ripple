@@ -11,7 +11,6 @@ setup(createElement)
 
 const RippleRoot = styled('button', forwardRef)`
   position: relative;
-  background-color: transparent;
 `
 
 const Ripple = (props) => {
