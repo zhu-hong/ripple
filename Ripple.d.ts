@@ -74,7 +74,7 @@ export interface RippleProps {
   focusableWhenDisabled?: boolean;
   disabledClassName?: string;
   focusVisibleClassName?: string;
-  sx?: React.CSSProperties;
+  style?: React.CSSProperties;
   tabIndex?: number;
   className?: string;
 }

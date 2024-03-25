@@ -26,7 +26,6 @@ const Ripple = (props) => {
     focusableWhenDisabled = false,
     disabledClassName,
     focusVisibleClassName,
-    sx,
     tabIndex = 0,
     ...other
   } = props
@@ -70,7 +69,7 @@ const Ripple = (props) => {
   })
 
   return (
-    <RippleRoot {...rootProps} style={sx}>
+    <RippleRoot {...rootProps}>
       {children}
       {enableTouchRipple ? (
         <TouchRipple center={centerRipple} ref={handleRippleRef} />
