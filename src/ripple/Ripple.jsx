@@ -11,6 +11,7 @@ setup(createElement)
 
 const RippleRoot = styled('button', forwardRef)`
   position: relative;
+  overflow: hidden;
 `
 
 const Ripple = (props) => {
@@ -23,7 +24,6 @@ const Ripple = (props) => {
     disableTouchRipple = false,
     focusRipple = false,
     centerRipple = false,
-    focusableWhenDisabled = false,
     disabledClassName,
     focusVisibleClassName,
     tabIndex = 0,
@@ -35,7 +35,6 @@ const Ripple = (props) => {
   const { focusVisible, getRootProps } = useButton({
     type,
     disabled,
-    focusableWhenDisabled,
     tabIndex,
     rootRef: handleRef,
   })

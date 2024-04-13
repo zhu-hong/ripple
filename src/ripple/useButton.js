@@ -4,7 +4,7 @@ import { extractEventHandlers } from './useSlotProps'
 import { useIsFocusVisible } from './useIsFocusVisible'
 
 export const useButton =(params) => {
-  const { disabled = false, focusableWhenDisabled, rootRef: externalRef, tabIndex, type } = params
+  const { disabled = false, rootRef: externalRef, tabIndex, type } = params
 
   const buttonRef = useRef(null)
 
@@ -18,7 +18,7 @@ export const useButton =(params) => {
   } = useIsFocusVisible()
 
   const [focusVisible, setFocusVisible] = useState(false)
-  if(disabled && !focusableWhenDisabled && focusVisible) {
+  if(disabled && focusVisible) {
     setFocusVisible(false)
   }
 
@@ -163,15 +163,11 @@ export const useButton =(params) => {
 
   if(hostElementName === 'BUTTON') {
     buttonProps.type = type || 'button'
-    if(focusableWhenDisabled) {
-      buttonProps['aria-disabled'] = disabled
-    } else {
-      buttonProps.disabled = disabled
-    }
+    buttonProps.disabled = disabled
   } else if(hostElementName !== '') {
     if(disabled) {
       buttonProps['aria-disabled'] = disabled
-      buttonProps.tabIndex = focusableWhenDisabled ? (tabIndex || 0) : -1
+      buttonProps.tabIndex = -1
     }
   }
 

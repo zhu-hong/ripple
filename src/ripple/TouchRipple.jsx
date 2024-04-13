@@ -19,11 +19,9 @@ const rippleClasses = {
 const enterKeyframe = keyframes`
   0% {
     transform: scale(0);
-    opacity: 0.1;
   }
   100% {
     transform: scale(1);
-    opacity: 0.12;
   }
 `
 
@@ -62,12 +60,10 @@ const RippleAnimated = styled(RippleAnimate)`
   opacity: 0;
   position: absolute;
   &.${rippleClasses.rippleVisible} {
-    opacity: 0.12;
-    transform: scale(1);
+    opacity: 0.25;
     animation: ${DURATION}ms ${enterKeyframe} cubic-bezier(0.4, 0, 0.2, 1);
   }
   & .${rippleClasses.child} {
-    opacity: 1;
     display: block;
     width: 100%;
     height: 100%;
@@ -75,7 +71,6 @@ const RippleAnimated = styled(RippleAnimate)`
     background-color: currentColor;
   }
   & .${rippleClasses.childLeaving} {
-    opacity: 0;
     animation: ${DURATION}ms ${exitKeyframe} cubic-bezier(0.4, 0, 0.2, 1);
   }
 

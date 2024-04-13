@@ -20,7 +20,6 @@ function App() {
           style={{padding:'8px 12px',fontSize:14,color:'white',backgroundColor:'#0B58D2'}}
           focusRipple
           autoFocus
-          disabled
         >
           按钮
         </Ripple>
@@ -37,12 +36,12 @@ function App() {
         <Ripple
           centerRipple
           focusRipple
-          style={{padding:'24px',fontSize:22,fontWeight:500,color:'black',backgroundColor:'#FF9900'}}
+          style={{padding:'24px',fontSize:22,fontWeight:500,color:'black',backgroundColor:'transparent'}}
         >
         </Ripple>
       </div>
       <div>
-        <Ripple title='???' children='gogo' className='gogo' style={{color:'#1976D2',padding:10}} />
+        <Ripple focusRipple title='???' children='gogo' className='gogo' style={{color:'#1976D2',padding:10}} />
       </div>
     </div>
   </>

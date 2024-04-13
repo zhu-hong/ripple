@@ -71,7 +71,6 @@ export interface RippleProps {
   disableTouchRipple?: boolean;
   focusRipple?: boolean;
   centerRipple?: boolean;
-  focusableWhenDisabled?: boolean;
   disabledClassName?: string;
   focusVisibleClassName?: string;
   style?: React.CSSProperties;
