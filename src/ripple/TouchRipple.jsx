@@ -71,6 +71,7 @@ const RippleAnimated = styled(RippleAnimate)`
     background-color: currentColor;
   }
   & .${rippleClasses.childLeaving} {
+    opacity: 0;
     animation: ${DURATION}ms ${exitKeyframe} cubic-bezier(0.4, 0, 0.2, 1);
   }
 
