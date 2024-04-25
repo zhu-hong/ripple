@@ -14,35 +14,28 @@ const RippleRoot = styled('button', forwardRef)`
   overflow: hidden;
 `
 
-const Ripple = (props) => {
+const Ripple = forwardRef((props, ref) => {
   const {
     children,
     as = 'button',
-    type = 'button',
-    disabled = false,
     disableRipple = false,
     disableTouchRipple = false,
     focusRipple = false,
     centerRipple = false,
     disabledClassName,
     focusVisibleClassName,
-    tabIndex = 0,
     ...other
   } = props
 
   const buttonRef = useRef(null)
-  const handleRef = useForkRef(buttonRef)
+  const handleRef = useForkRef(buttonRef, ref)
   const { focusVisible, getRootProps } = useButton({
-    type,
-    disabled,
-    tabIndex,
     rootRef: handleRef,
   })
 
   const rippleRef = useRef(null)
   const handleRippleRef = useForkRef(rippleRef)
   const { enableTouchRipple, getRippleHandlers } = useTouchRipple({
-    disabled,
     disableRipple,
     disableTouchRipple,
     rippleRef,
@@ -62,8 +55,7 @@ const Ripple = (props) => {
     externalForwardedProps: other,
     additionalProps: {
       as,
-      type,
-      className: clsx(props.className, disabled && disabledClassName, focusVisible && focusVisibleClassName),
+      className: clsx(props.className, props.disabled && disabledClassName, focusVisible && focusVisibleClassName),
     },
   })
 
@@ -75,7 +67,7 @@ const Ripple = (props) => {
       ) : null}
     </RippleRoot>
   )
-}
+})
 
 export {
   Ripple,

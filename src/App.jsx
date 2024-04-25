@@ -1,6 +1,14 @@
+import { useRef } from 'react'
 import { Ripple } from './ripple/Ripple'
+import { useEffect } from 'react'
 
 function App() {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    console.log(ref.current)
+  }, [])
+
   return <>
     <div style={{padding:12,display:'flex',flexDirection:'column',gap:12}}>
       <div>
@@ -20,6 +28,9 @@ function App() {
           style={{padding:'8px 12px',fontSize:14,color:'white',backgroundColor:'#0B58D2'}}
           focusRipple
           autoFocus
+          ref={ref}
+          tabIndex={-1}
+          onClick={console.log}
         >
           按钮
         </Ripple>
@@ -28,6 +39,8 @@ function App() {
         <Ripple
           style={{padding:'6px 16px',width:'100%',borderRadius:'4px',fontSize:14,fontWeight:500,color:'white',backgroundColor:'#058373'}}
           focusRipple
+          disabled
+          onClick={console.log}
         >
           按钮
         </Ripple>
@@ -37,6 +50,7 @@ function App() {
           centerRipple
           focusRipple
           style={{padding:'24px',fontSize:22,fontWeight:500,color:'black',backgroundColor:'transparent'}}
+          onClick={console.log}
         >
         </Ripple>
       </div>

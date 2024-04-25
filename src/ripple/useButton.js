@@ -8,8 +8,6 @@ export const useButton =(params) => {
 
   const buttonRef = useRef(null)
 
-  const [active, setActive] = useState(false)
-
   const {
     isFocusVisibleRef,
     onFocus: handleFocusVisible,
@@ -87,17 +85,6 @@ export const useButton =(params) => {
   }
 
   const createHandleMouseDown = (otherHandlers) => (event) => {
-    if(!disabled) {
-      setActive(true)
-      document.addEventListener(
-        'mouseup',
-        () => {
-          setActive(false)
-        },
-        { once: true },
-      )
-    }
-
     if(otherHandlers.onMouseDown) {
       otherHandlers.onMouseDown(event)
     }
@@ -110,10 +97,6 @@ export const useButton =(params) => {
 
     if(event.target === event.currentTarget && !isNativeButton() && event.key === ' ') {
       event.preventDefault()
-    }
-
-    if(event.target === event.currentTarget && event.key === ' ' && !disabled) {
-      setActive(true)
     }
 
     if(
@@ -130,10 +113,6 @@ export const useButton =(params) => {
   }
 
   const createHandleKeyUp = (otherHandlers) => (event) => {
-    if(event.target === event.currentTarget) {
-      setActive(false)
-    }
-
     if(otherHandlers.onKeyUp) {
       otherHandlers.onKeyUp(event)
     }

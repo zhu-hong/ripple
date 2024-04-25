@@ -57,15 +57,7 @@ interface OverridableTypeMap {
   defaultComponent: React.ElementType;
 }
 
-interface RippleTypeMap<
-  AdditionalProps = {},
-  RootComponent extends React.ElementType = 'button',
-> {
-  props: AdditionalProps;
-  defaultComponent: RootComponent;
-}
-
-export interface RippleProps {
+ interface RippleProps {
   disabled?: boolean;
   disableRipple?: boolean;
   disableTouchRipple?: boolean;
@@ -76,6 +68,7 @@ export interface RippleProps {
   style?: React.CSSProperties;
   tabIndex?: number;
   className?: string;
+  ref?: React.ForwardedRef<unknown>;
 }
 
 declare const Ripple: OverridableComponent<{
@@ -85,4 +78,5 @@ declare const Ripple: OverridableComponent<{
 
 export {
   Ripple,
+  RippleProps,
 }

@@ -10,7 +10,7 @@ const setRef = (ref, value) => {
 
 export const useForkRef = (...refs) => {
   return useMemo(() => {
-    if(refs.every((ref) => ref == null)) {
+    if(refs.every((ref) => ref === null)) {
       return null
     }
 
