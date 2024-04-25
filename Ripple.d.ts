@@ -57,8 +57,7 @@ interface OverridableTypeMap {
   defaultComponent: React.ElementType;
 }
 
- interface RippleProps {
-  disabled?: boolean;
+interface RippleProps {
   disableRipple?: boolean;
   disableTouchRipple?: boolean;
   focusRipple?: boolean;
@@ -66,8 +65,6 @@ interface OverridableTypeMap {
   disabledClassName?: string;
   focusVisibleClassName?: string;
   style?: React.CSSProperties;
-  tabIndex?: number;
-  className?: string;
   ref?: React.ForwardedRef<unknown>;
 }
 
