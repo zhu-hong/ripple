@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type React from 'react'
 
 /**
  * Remove properties `K` from `T`.
@@ -59,7 +59,6 @@ interface OverridableTypeMap {
 
 interface RippleProps {
   disableRipple?: boolean;
-  disableTouchRipple?: boolean;
   focusRipple?: boolean;
   centerRipple?: boolean;
   disabledClassName?: string;

@@ -31,9 +31,7 @@ export const useButton =(params) => {
       event.preventDefault()
     }
 
-    if(otherHandlers.onMouseLeave) {
-      otherHandlers.onMouseLeave(event)
-    }
+    otherHandlers.onMouseLeave?.(event)
   }
 
   const createHandleBlur = (otherHandlers) => (event) => {
@@ -43,9 +41,7 @@ export const useButton =(params) => {
       setFocusVisible(false)
     }
 
-    if(otherHandlers.onBlur) {
-      otherHandlers.onBlur(event)
-    }
+    otherHandlers.onBlur?.(event)
   }
 
   const createHandleFocus =
@@ -57,11 +53,10 @@ export const useButton =(params) => {
       handleFocusVisible(event)
       if(isFocusVisibleRef.current === true) {
         setFocusVisible(true)
+        otherHandlers.onFocusVisible?.(event)
       }
 
-      if(otherHandlers.onFocus) {
-        otherHandlers.onFocus(event)
-      }
+      otherHandlers.onFocus?.(event)
     }
 
   const isNativeButton = () => {
@@ -70,30 +65,24 @@ export const useButton =(params) => {
     return (
       hostElementName === 'BUTTON'
       ||
-      (hostElementName === 'INPUT' && button && ['button', 'submit', 'reset'].includes((button.type)))
+      (hostElementName === 'INPUT' && ['button', 'submit', 'reset'].includes((button?.type)))
       ||
-      (hostElementName === 'A' && button && button.href)
+      (hostElementName === 'A' && button?.href)
     )
   }
 
   const createHandleClick = (otherHandlers) => (event) => {
     if(!disabled) {
-      if(otherHandlers.onClick) {
-        otherHandlers.onClick(event)
-      }
+      otherHandlers.onClick?.(event)
     }
   }
 
   const createHandleMouseDown = (otherHandlers) => (event) => {
-    if(otherHandlers.onMouseDown) {
-      otherHandlers.onMouseDown(event)
-    }
+    otherHandlers.onMouseDown?.(event)
   }
 
   const createHandleKeyDown = (otherHandlers) => (event) => {
-    if(otherHandlers.onKeyDown) {
-      otherHandlers.onKeyDown(event)
-    }
+    otherHandlers.onKeyDown?.(event)
 
     if(event.target === event.currentTarget && !isNativeButton() && event.key === ' ') {
       event.preventDefault()
@@ -105,26 +94,21 @@ export const useButton =(params) => {
       && event.key === 'Enter'
       && !disabled
     ) {
-      if(otherHandlers.onClick) {
-        otherHandlers.onClick(event)
-      }
+      otherHandlers.onClick?.(event)
       event.preventDefault()
     }
   }
 
   const createHandleKeyUp = (otherHandlers) => (event) => {
-    if(otherHandlers.onKeyUp) {
-      otherHandlers.onKeyUp(event)
-    }
+    otherHandlers.onKeyUp?.(event)
 
     if(
       event.target === event.currentTarget
       && !isNativeButton()
       && !disabled
+      && event.key === ' ' 
     ) {
-      if(otherHandlers.onClick) {
-        otherHandlers.onClick(event)
-      }
+      otherHandlers.onClick?.(event)
     }
   }
 
@@ -141,9 +125,15 @@ export const useButton =(params) => {
   }
 
   if(hostElementName === 'BUTTON') {
-    buttonProps.type = type || 'button'
+    buttonProps.type = type ?? 'button'
     buttonProps.disabled = disabled
+  } else if (hostElementName === 'INPUT') {
+    if (type && ['button', 'submit', 'reset'].includes(type)) {
+      buttonProps.disabled = disabled
+    }
   } else if(hostElementName !== '') {
+    buttonProps.role = 'button'
+    buttonProps.tabIndex = tabIndex ?? 0
     if(disabled) {
       buttonProps['aria-disabled'] = disabled
       buttonProps.tabIndex = -1

@@ -9,9 +9,9 @@ const useEventCallback = (fn) => {
 }
 
 export const useTouchRipple = (props) => {
-  const { disabled, disableRipple, disableTouchRipple, rippleRef } = props
+  const { disableRipple, rippleRef } = props
 
-  const useRippleHandler = (rippleAction, skipRippleAction = disableTouchRipple) => {
+  const useRippleHandler = (rippleAction, skipRippleAction = disableRipple) => {
     return useEventCallback((event) => {
       if(!skipRippleAction && rippleRef.current) {
         rippleRef.current[rippleAction](event)
@@ -30,14 +30,6 @@ export const useTouchRipple = (props) => {
   const handleTouchStart = useRippleHandler('start')
   const handleTouchEnd = useRippleHandler('stop')
   const handleTouchMove = useRippleHandler('stop')
-
-  const [mountedState, setMountedState] = useState(false)
-
-  useEffect(() => {
-    setMountedState(true)
-  }, [])
-
-  const enableTouchRipple = mountedState && !disableRipple && !disabled
 
   const getRippleHandlers = useMemo(() => {
     const rippleHandlers = {
@@ -82,7 +74,6 @@ export const useTouchRipple = (props) => {
   ])
 
   return {
-    enableTouchRipple,
     getRippleHandlers,
   }
 }

@@ -5,12 +5,17 @@ import babel from '@rollup/plugin-babel'
 
 export default defineConfig({
   input: 'src/ripple/Ripple.jsx',
-  external: ['clsx','goober','react','react-dom','react-transition-group'],
+  external: ['clsx','goober','react','react/jsx-runtime','react-transition-group'],
   plugins: [
     commonjs(),
     babel({
       babelHelpers: 'bundled',
-      presets: ['@babel/preset-react'],
+      plugins: [
+        [
+          '@babel/plugin-transform-react-jsx',
+          { runtime: 'automatic' },
+        ],
+      ],
     }),
     nodeResolve(),
   ],
