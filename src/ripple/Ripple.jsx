@@ -23,6 +23,7 @@ const Ripple = forwardRef((props, ref) => {
     centerRipple = false,
     disabledClassName,
     focusVisibleClassName,
+    tabIndex = 0,
     ...other
   } = props
 
@@ -59,7 +60,7 @@ const Ripple = forwardRef((props, ref) => {
   })
 
   return (
-    <RippleRoot as={as} {...rootProps}>
+    <RippleRoot as={as} tabIndex={props.disabled ? -1 : tabIndex} {...rootProps}>
       {children}
       {enableTouchRipple ? <TouchRipple center={centerRipple} ref={handleRippleRef} /> : null}
     </RippleRoot>
