@@ -26,11 +26,11 @@ export const useSlotProps = (parameters) => {
   const { externalForwardedProps, getSlotProps, additionalProps } = parameters
 
   const eventHandlers = extractEventHandlers(externalForwardedProps)
-  const otherPropsWithoutEventHandlers = omitEventHandlers(externalForwardedProps)
-
   const internalSlotProps = getSlotProps(eventHandlers)
 
-  const props = {
+  const otherPropsWithoutEventHandlers = omitEventHandlers(externalForwardedProps)
+
+  const { onFocusVisible, ...props } = {
     ...internalSlotProps,
     ...otherPropsWithoutEventHandlers,
     ...additionalProps,

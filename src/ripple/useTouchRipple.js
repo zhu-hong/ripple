@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect, useLayoutEffect } from 'react'
+import { useRef, useMemo, useLayoutEffect } from 'react'
 
 const useEventCallback = (fn) => {
   const ref = useRef(fn)
@@ -31,7 +31,7 @@ export const useTouchRipple = (props) => {
   const handleTouchEnd = useRippleHandler('stop')
   const handleTouchMove = useRippleHandler('stop')
 
-  const getRippleHandlers = useMemo(() => {
+  return useMemo(() => {
     const rippleHandlers = {
       onBlur: handleBlur,
       onMouseDown: handleMouseDown,
@@ -72,8 +72,4 @@ export const useTouchRipple = (props) => {
     handleTouchEnd,
     handleTouchMove,
   ])
-
-  return {
-    getRippleHandlers,
-  }
 }

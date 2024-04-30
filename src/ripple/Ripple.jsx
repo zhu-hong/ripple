@@ -1,11 +1,11 @@
-import { createElement, forwardRef, useRef, useEffect } from 'react'
+import { createElement, forwardRef, useRef, useEffect, useMemo } from 'react'
 import { styled, setup } from 'goober'
+import clsx from 'clsx'
 import { TouchRipple } from './TouchRipple.jsx'
 import { useTouchRipple } from './useTouchRipple'
 import { useButton } from './useButton'
 import { useForkRef } from './useForkRef'
 import { useSlotProps } from './useSlotProps'
-import clsx from 'clsx'
 
 setup(createElement)
 
@@ -18,29 +18,29 @@ const Ripple = forwardRef((props, ref) => {
   const {
     children,
     as = 'button',
+    tabIndex = 0,
     disableRipple = false,
     focusRipple = false,
     centerRipple = false,
     disabledClassName,
     focusVisibleClassName,
-    tabIndex = 0,
     ...other
   } = props
 
   const buttonRef = useRef(null)
   const handleRef = useForkRef(buttonRef, ref)
   const { focusVisible, getRootProps } = useButton({
+    disabled: props.disabled,
     rootRef: handleRef,
+    tabIndex: tabIndex,
   })
 
   const rippleRef = useRef(null)
   const handleRippleRef = useForkRef(rippleRef)
-  const { getRippleHandlers } = useTouchRipple({
+  const getRippleHandlers = useTouchRipple({
     disableRipple,
     rippleRef,
   })
-
-  const enableTouchRipple = !props.disabled && !disableRipple
   
   useEffect(() => {
     if(focusVisible && focusRipple && !disableRipple && rippleRef.current) {
@@ -56,11 +56,17 @@ const Ripple = forwardRef((props, ref) => {
     externalForwardedProps: other,
     additionalProps: {
       className: clsx(props.className, props.disabled && disabledClassName, focusVisible && focusVisibleClassName),
+      tabIndex,
+      as,
     },
   })
 
+  const enableTouchRipple = useMemo(() => {
+    return !props.disabled && !props.disableRipple
+  }, [props])
+
   return (
-    <RippleRoot as={as} tabIndex={props.disabled ? -1 : tabIndex} {...rootProps}>
+    <RippleRoot {...rootProps}>
       {children}
       {enableTouchRipple ? <TouchRipple center={centerRipple} ref={handleRippleRef} /> : null}
     </RippleRoot>

@@ -26,6 +26,18 @@ export const useButton =(params) => {
 
   const [hostElementName, setHostElementName] = useState('')
 
+  const isNativeButton = () => {
+    const button = buttonRef.current
+
+    return (
+      hostElementName === 'BUTTON'
+      ||
+      (hostElementName === 'INPUT' && ['button', 'submit', 'reset'].includes((button?.type)))
+      ||
+      (hostElementName === 'A' && button?.href)
+    )
+  }
+
   const createHandleMouseLeave = (otherHandlers) => (event) => {
     if(focusVisible) {
       event.preventDefault()
@@ -44,31 +56,18 @@ export const useButton =(params) => {
     otherHandlers.onBlur?.(event)
   }
 
-  const createHandleFocus =
-    (otherHandlers) => (event) => {
-      if(!buttonRef.current) {
-        buttonRef.current = event.currentTarget
-      }
-
-      handleFocusVisible(event)
-      if(isFocusVisibleRef.current === true) {
-        setFocusVisible(true)
-        otherHandlers.onFocusVisible?.(event)
-      }
-
-      otherHandlers.onFocus?.(event)
+  const createHandleFocus = (otherHandlers) => (event) => {
+    if(!buttonRef.current) {
+      buttonRef.current = event.currentTarget
     }
 
-  const isNativeButton = () => {
-    const button = buttonRef.current
+    handleFocusVisible(event)
+    if(isFocusVisibleRef.current === true) {
+      setFocusVisible(true)
+      otherHandlers.onFocusVisible?.(event)
+    }
 
-    return (
-      hostElementName === 'BUTTON'
-      ||
-      (hostElementName === 'INPUT' && ['button', 'submit', 'reset'].includes((button?.type)))
-      ||
-      (hostElementName === 'A' && button?.href)
-    )
+    otherHandlers.onFocus?.(event)
   }
 
   const createHandleClick = (otherHandlers) => (event) => {
@@ -128,7 +127,7 @@ export const useButton =(params) => {
     buttonProps.type = type ?? 'button'
     buttonProps.disabled = disabled
   } else if (hostElementName === 'INPUT') {
-    if (type && ['button', 'submit', 'reset'].includes(type)) {
+    if (['button', 'submit', 'reset'].includes(type)) {
       buttonProps.disabled = disabled
     }
   } else if(hostElementName !== '') {

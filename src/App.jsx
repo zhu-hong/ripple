@@ -29,8 +29,8 @@ function App() {
           focusRipple
           autoFocus
           ref={ref}
-          tabIndex={-1}
-          onClick={console.log}
+          onFocus={() => console.log('focus')}
+          onFocusVisible={() => console.log('focusvisible')}
         >
           按钮
         </Ripple>

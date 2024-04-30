@@ -64,6 +64,7 @@ interface RippleProps {
   disabledClassName?: string;
   focusVisibleClassName?: string;
   style?: React.CSSProperties;
+  onFocusVisible: React.FocusEventHandler<HTMLButtonElement>;
   ref?: React.ForwardedRef<unknown>;
 }
 
