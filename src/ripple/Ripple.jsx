@@ -1,4 +1,5 @@
-import { createElement, forwardRef, useRef, useEffect, useMemo } from 'react'
+import { forwardRef, useRef, useEffect, useMemo } from 'react'
+import { jsx } from 'react/jsx-runtime'
 import { styled, setup } from 'goober'
 import clsx from 'clsx'
 import { TouchRipple } from './TouchRipple.jsx'
@@ -7,7 +8,7 @@ import { useButton } from './useButton'
 import { useForkRef } from './useForkRef'
 import { useSlotProps } from './useSlotProps'
 
-setup(createElement)
+setup(jsx)
 
 const RippleRoot = styled('button', forwardRef)`
   position: relative;
