@@ -65,7 +65,7 @@ const isFocusVisible = (event) => {
   try {
     return target.matches(':focus-visible')
   } catch (error) {
-    console.warn(error)
+    console.warn(':focus-visible not support', error)
   }
 
   return hadKeyboardEvent || focusTriggersKeyboardModality(target)
