@@ -9,8 +9,6 @@ import { useEventCallback } from './useEventCallback.js'
 
 setup(jsx)
 
-const isNonNativeButton = (as) => as !== 'button'
-
 const RippleRoot = styled('button', forwardRef)`
   position: relative;
   overflow: hidden;
@@ -139,7 +137,7 @@ const Ripple = forwardRef((props, ref) => {
       })
     }
 
-    if (event.target === event.currentTarget && isNonNativeButton(as) && event.key === ' ') {
+    if (event.target === event.currentTarget && as === 'button' && event.key === ' ') {
       event.preventDefault()
     }
 
@@ -147,14 +145,14 @@ const Ripple = forwardRef((props, ref) => {
 
     if (
       event.target === event.currentTarget &&
-      isNonNativeButton(as) &&
+      as === 'button' &&
       event.key === 'Enter' &&
       !disabled
     ) {
       event.preventDefault()
       onClick?.(event)
     }
-  });
+  })
 
   const handleKeyUp = useEventCallback((event) => {
     if (
@@ -176,7 +174,7 @@ const Ripple = forwardRef((props, ref) => {
     if (
       onClick &&
       event.target === event.currentTarget &&
-      isNonNativeButton(as) &&
+      as === 'button' &&
       event.key === ' ' &&
       !event.defaultPrevented
     ) {
@@ -202,35 +200,33 @@ const Ripple = forwardRef((props, ref) => {
 
   const handleRef = useForkRef(ref, focusVisibleRef, buttonRef)
 
-  return (
-    <RippleRoot
-      ref={handleRef}
-      as={as}
-      type={type}
-      tabIndex={disabled ? -1 : tabIndex}
-      href={href}
-      to={to}
-      className={clsx(props.className, disabled && disabledClassName, focusVisible && focusVisibleClassName)}
-      onClick={onClick}
-      onMouseDown={handleMouseDown}
-      onContextMenu={handleContextMenu}
-      onDragLeave={handleDragLeave}
-      onKeyUp={handleKeyUp}
-      onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onTouchMove={handleTouchMove}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
-      onKeyDown={handleKeyDown}
-      onMouseUp={handleMouseUp}
-      {...buttonProps}
-      {...other}
-    >
-      {children}
-      {enableTouchRipple ? <TouchRipple center={centerRipple} ref={rippleRef} /> : null}
-    </RippleRoot>
-  )
+  return <RippleRoot
+    ref={handleRef}
+    as={as}
+    type={type}
+    tabIndex={disabled ? -1 : tabIndex}
+    href={href}
+    to={to}
+    className={clsx(props.className, disabled && disabledClassName, focusVisible && focusVisibleClassName)}
+    onClick={onClick}
+    onMouseDown={handleMouseDown}
+    onContextMenu={handleContextMenu}
+    onDragLeave={handleDragLeave}
+    onKeyUp={handleKeyUp}
+    onMouseLeave={handleMouseLeave}
+    onTouchStart={handleTouchStart}
+    onTouchEnd={handleTouchEnd}
+    onTouchMove={handleTouchMove}
+    onBlur={handleBlur}
+    onFocus={handleFocus}
+    onKeyDown={handleKeyDown}
+    onMouseUp={handleMouseUp}
+    {...buttonProps}
+    {...other}
+  >
+    {children}
+    {enableTouchRipple ? <TouchRipple center={centerRipple} ref={rippleRef} /> : null}
+  </RippleRoot>
 })
 
 export {

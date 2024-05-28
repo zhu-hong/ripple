@@ -41,6 +41,7 @@ function App() {
           focusRipple
           disabled
           onClick={console.log}
+          onKeyDown={console.log}
         >
           按钮
         </Ripple>
