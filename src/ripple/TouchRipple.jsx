@@ -1,7 +1,7 @@
 import { forwardRef, useRef, useCallback, useState, useEffect, useImperativeHandle } from 'react'
 import { styled, keyframes } from 'goober'
 import { TransitionGroup } from 'react-transition-group'
-import RippleAnimate from './RippleAnimate.jsx'
+import { RippleAnimate } from './RippleAnimate.jsx'
 
 const DURATION = 550
 const DELAY_RIPPLE = 80
@@ -234,14 +234,12 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
     [start, stop, pulsate],
   )
 
-  return (
-    <RippleRoot
-      className={rippleClasses.root}
-      ref={container}
-    >
-      <TransitionGroup component={null} exit>
-        {ripples}
-      </TransitionGroup>
-    </RippleRoot>
-  )
+  return <RippleRoot
+    className={rippleClasses.root}
+    ref={container}
+  >
+    <TransitionGroup component={null} exit>
+      {ripples}
+    </TransitionGroup>
+  </RippleRoot>
 })
