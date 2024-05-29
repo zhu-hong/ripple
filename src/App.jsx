@@ -11,7 +11,7 @@ function App() {
 
   return <>
     <div style={{padding:12,display:'flex',flexDirection:'column',gap:12}}>
-      {/* <div>
+      <div>
         <Ripple
           style={{padding:'4px 8px',fontSize:12,color:'white',backgroundColor:'#F54A45'}}
           focusRipple
@@ -27,7 +27,7 @@ function App() {
         <Ripple
           style={{padding:'8px 12px',fontSize:14,color:'white',backgroundColor:'#0B58D2'}}
           focusRipple
-          // autoFocus
+          autoFocus
           ref={ref}
           onFocus={() => console.log('focus')}
           onFocusVisible={() => console.log('focusvisible')}
@@ -54,7 +54,7 @@ function App() {
           onClick={console.log}
         >
         </Ripple>
-      </div> */}
+      </div>
       <div>
         <Ripple focusRipple title='???' children='gogo' className='gogo' style={{color:'#1976D2',padding:10}} />
       </div>

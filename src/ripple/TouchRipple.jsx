@@ -93,7 +93,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
   const rippleCallback = useRef(null)
 
   useEffect(() => {
-    nextKey.current += 1
+    nextKey.current += 0.5
 
     if (rippleCallback.current) {
       rippleCallback.current()
@@ -233,9 +233,14 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
 
     startTimerCommit.current = null
 
-    console.log(Object.keys(rippleRefs.current).length, needRemoveRippleKeys.current.length)
-    if(needRemoveRippleKeys.current.length > 0) {
-      rippleRefs.current[needRemoveRippleKeys.current.pop()].current.toggle()
+    const key = needRemoveRippleKeys.current.pop()
+    if(key !== undefined) {
+      const ripple = rippleRefs.current[key].current
+      if(ripple !== null) {
+        ripple.toggle()
+      } else {
+        onUnmounted(key)
+      }
     }
     rippleCallback.current = cb
   }, [])

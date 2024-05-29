@@ -75,13 +75,9 @@ const Ripple = forwardRef((props, ref) => {
 
   const useRippleHandler = useCallback((rippleAction, eventCallback) => {
     return useEventCallback((event) => {
-      if(eventCallback) {
-        eventCallback(event)
-      }
+      eventCallback?.(event)
 
-      if(rippleRef.current) {
-        rippleRef.current[rippleAction](event)
-      }
+      rippleRef.current?.[rippleAction](event)
 
       return true
     })
