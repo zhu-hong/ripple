@@ -66,6 +66,10 @@ const RippleAnimated = styled(RippleAnimate)`
     transform: scale(1);
     animation: ${DURATION}ms ${enterKeyframe} cubic-bezier(0.4, 0, 0.2, 1);
   }
+  &.${rippleClasses.ripplePulsate} {
+    animation-duration: 200ms;
+  }
+
   & .${rippleClasses.child} {
     opacity: 1;
     display: block;
@@ -79,9 +83,6 @@ const RippleAnimated = styled(RippleAnimate)`
     animation: ${DURATION}ms ${exitKeyframe} cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  &.${rippleClasses.ripplePulsate} {
-    animation-duration: 200ms;
-  }
   & .${rippleClasses.childPulsate} {
     animation: 2500ms ${pulsateKeyframe} cubic-bezier(0.4, 0, 0.2, 1) infinite 200ms;
   }
