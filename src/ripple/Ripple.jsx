@@ -56,7 +56,7 @@ const Ripple = forwardRef((props, ref) => {
   } = useIsFocusVisible()
 
   const [focusVisible, setFocusVisible] = useState(false)
-  if (disabled && focusVisible) {
+  if(disabled && focusVisible) {
     setFocusVisible(false)
   }
 
@@ -68,18 +68,18 @@ const Ripple = forwardRef((props, ref) => {
   const enableTouchRipple = mountedState && !disableRipple && !disabled
 
   useEffect(() => {
-    if (focusVisible && focusRipple && !disableRipple && mountedState) {
+    if(focusVisible && focusRipple && !disableRipple && mountedState) {
       rippleRef.current.pulsate()
     }
   }, [disableRipple, focusRipple, focusVisible, mountedState])
 
   const useRippleHandler = useCallback((rippleAction, eventCallback) => {
     return useEventCallback((event) => {
-      if (eventCallback) {
+      if(eventCallback) {
         eventCallback(event)
       }
 
-      if (rippleRef.current) {
+      if(rippleRef.current) {
         rippleRef.current[rippleAction](event)
       }
 
@@ -92,7 +92,7 @@ const Ripple = forwardRef((props, ref) => {
   const handleDragLeave = useRippleHandler('stop', onDragLeave)
   const handleMouseUp = useRippleHandler('stop', onMouseUp)
   const handleMouseLeave = useRippleHandler('stop', (event) => {
-    if (focusVisible) {
+    if(focusVisible) {
       event.preventDefault()
     }
     onMouseLeave?.(event)
@@ -102,29 +102,29 @@ const Ripple = forwardRef((props, ref) => {
   const handleTouchMove = useRippleHandler('stop', onTouchMove)
   const handleBlur = useRippleHandler('stop', (event) => {
     handleBlurVisible(event)
-    if (isFocusVisibleRef.current === false) {
+    if(isFocusVisibleRef.current === false) {
       setFocusVisible(false)
     }
     onBlur?.(event)
   }, false)
   const handleFocus = useEventCallback((event) => {
-    if (!buttonRef.current) {
+    if(!buttonRef.current) {
       buttonRef.current = event.currentTarget
     }
 
     handleFocusVisible(event)
-    if (isFocusVisibleRef.current === true) {
+    if(isFocusVisibleRef.current === true) {
       setFocusVisible(true)
 
       onFocusVisible?.(event)
     }
 
-    onFocus?.()
+    onFocus?.(event)
   })
 
   const keydownRef = useRef(null)
   const handleKeyDown = useEventCallback((event) => {
-    if (
+    if(
       focusRipple &&
       !keydownRef.current &&
       focusVisible &&
@@ -137,13 +137,13 @@ const Ripple = forwardRef((props, ref) => {
       })
     }
 
-    if (event.target === event.currentTarget && as === 'button' && event.key === ' ') {
+    if(event.target === event.currentTarget && as === 'button' && event.key === ' ') {
       event.preventDefault()
     }
 
     onKeyDown?.(event)
 
-    if (
+    if(
       event.target === event.currentTarget &&
       as === 'button' &&
       event.key === 'Enter' &&
@@ -155,7 +155,7 @@ const Ripple = forwardRef((props, ref) => {
   })
 
   const handleKeyUp = useEventCallback((event) => {
-    if (
+    if(
       focusRipple &&
       event.key === ' ' &&
       rippleRef.current &&
@@ -167,11 +167,10 @@ const Ripple = forwardRef((props, ref) => {
         rippleRef.current.pulsate(event)
       })
     }
-    if (onKeyUp) {
-      onKeyUp?.(event)
-    }
 
-    if (
+    onKeyUp?.(event)
+
+    if(
       onClick &&
       event.target === event.currentTarget &&
       as === 'button' &&
@@ -184,19 +183,19 @@ const Ripple = forwardRef((props, ref) => {
 
   const buttonProps = useMemo(() => {
     const buttonProps = {}
-    if (as === 'button') {
+    if(as === 'button') {
       buttonProps.type = type === undefined ? 'button' : type
       buttonProps.disabled = disabled
     } else {
-      if (!href && !to) {
+      if(!href && !to) {
         buttonProps.role = 'button'
       }
-      if (disabled) {
+      if(disabled) {
         buttonProps['aria-disabled'] = disabled
       }
     }
     return buttonProps
-  }, [as, type, disabled])
+  }, [as, type, disabled, href, to])
 
   const handleRef = useForkRef(ref, focusVisibleRef, buttonRef)
 
