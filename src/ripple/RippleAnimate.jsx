@@ -1,8 +1,18 @@
-import { useState, useEffect } from 'react'
+import { forwardRef, useImperativeHandle } from 'react'
 import clsx from 'clsx'
+import { useTransition } from 'react-transition-state'
 
-export const RippleAnimate = ({ className, classes, rippleX, rippleY, rippleSize, in: inProp, onExited, timeout, pulsate= false }) => {
-  const [leaving, setLeaving] = useState(false)
+export const RippleAnimate = forwardRef(({ className, classes, rippleX, rippleY, rippleSize, timeout, pulsate= false, flag, onUnmounted }, ref) => {
+  const [{ status, isMounted }, toggle] = useTransition({
+    timeout,
+    initialEntered: true,
+    unmountOnExit: true,
+    onStateChange: ({ current }) => {
+      if(current.status === 'unmounted') {
+        onUnmounted(flag)
+      }
+    },
+  })
 
   const rippleClassName = clsx(className, classes.ripple, classes.rippleVisible, {
     [classes.ripplePulsate]: pulsate,
@@ -16,23 +26,15 @@ export const RippleAnimate = ({ className, classes, rippleX, rippleY, rippleSize
   }
 
   const childClassName = clsx(classes.child, {
-    [classes.childLeaving]: leaving,
+    [classes.childLeaving]: status === 'exiting',
     [classes.childPulsate]: pulsate,
   })
 
-  if(!inProp && !leaving) {
-    setLeaving(true)
-  }
-  useEffect(() => {
-    if(!inProp && onExited != null) {
-      const timeoutId = setTimeout(onExited, timeout)
-      return () => {
-        clearTimeout(timeoutId)
-      }
-    }
-  }, [inProp, onExited, timeout])
+  useImperativeHandle(ref, () => ({
+    toggle,
+  }), [toggle])
 
-  return <span className={rippleClassName} style={rippleStyles}>
+  return (isMounted ? <span className={rippleClassName} style={rippleStyles}>
     <span className={childClassName} />
-  </span>
-}
+  </span> : null)
+})

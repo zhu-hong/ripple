@@ -1,6 +1,5 @@
-import { forwardRef, useRef, useCallback, useState, useEffect, useImperativeHandle } from 'react'
+import { forwardRef, useRef, useCallback, useState, useEffect, useImperativeHandle, createRef } from 'react'
 import { styled, keyframes } from 'goober'
-import { TransitionGroup } from 'react-transition-group'
 import { RippleAnimate } from './RippleAnimate.jsx'
 
 const DURATION = 550
@@ -58,7 +57,7 @@ const RippleRoot = styled('span', forwardRef)`
   inset: 0;
 `
 
-const RippleAnimated = styled(RippleAnimate)`
+const RippleAnimated = styled(RippleAnimate, forwardRef)`
   opacity: 0;
   position: absolute;
   &.${rippleClasses.rippleVisible} {
@@ -94,6 +93,8 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
   const rippleCallback = useRef(null)
 
   useEffect(() => {
+    nextKey.current += 1
+
     if (rippleCallback.current) {
       rippleCallback.current()
       rippleCallback.current = null
@@ -102,6 +103,8 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
 
   const ignoringMouseDown = useRef(false)
   const startTimer = useRef(null)
+
+  const needRemoveRippleKeys = useRef([])
 
   useEffect(() => {
     return () => {
@@ -113,28 +116,42 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
   const startTimerCommit = useRef(null)
   const container = useRef(null)
 
+  const rippleRefs = useRef({})
+
   const startCommit = useCallback(({ rippleX, rippleY, rippleSize, pulsate, cb }) => {
-    setRipples((oldRipples) => [
-      ...oldRipples,
-      <RippleAnimated
-        key={nextKey.current}
-        classes={{
-          ripple: rippleClasses.ripple,
-          rippleVisible: rippleClasses.rippleVisible,
-          child: rippleClasses.child,
-          childLeaving: rippleClasses.childLeaving,
-          ripplePulsate: rippleClasses.ripplePulsate,
-          childPulsate: rippleClasses.childPulsate,
-        }}
-        timeout={DURATION}
-        pulsate={pulsate}
-        rippleX={rippleX}
-        rippleY={rippleY}
-        rippleSize={rippleSize}
-      />
-    ])
-    nextKey.current += 1
+    rippleRefs.current[nextKey.current] = createRef()
+    needRemoveRippleKeys.current = [...new Set([...needRemoveRippleKeys.current, nextKey.current])]
+
+    setRipples((oldRipples) => {
+      return [
+        ...oldRipples,
+        <RippleAnimated
+          key={nextKey.current}
+          flag={nextKey.current}
+          ref={rippleRefs.current[nextKey.current]}
+          classes={{
+            ripple: rippleClasses.ripple,
+            rippleVisible: rippleClasses.rippleVisible,
+            child: rippleClasses.child,
+            childLeaving: rippleClasses.childLeaving,
+            ripplePulsate: rippleClasses.ripplePulsate,
+            childPulsate: rippleClasses.childPulsate,
+          }}
+          timeout={DURATION}
+          pulsate={pulsate}
+          rippleX={rippleX}
+          rippleY={rippleY}
+          rippleSize={rippleSize}
+          onUnmounted={onUnmounted}
+        />
+      ]
+    })
     rippleCallback.current = cb
+  }, [])
+
+  const onUnmounted = useCallback((key) => {
+    delete rippleRefs.current[key]
+    setRipples((ripples) => ripples.filter((r) => +r.key !== +key))
   }, [])
 
   const start = useCallback((event = {}, options = {}, cb = () => {}) => {
@@ -216,14 +233,12 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
 
     startTimerCommit.current = null
 
-    setRipples((oldRipples) => {
-      if(oldRipples.length > 0) {
-        return oldRipples.slice(1)
-      }
-      return oldRipples
-    })
+    console.log(Object.keys(rippleRefs.current).length, needRemoveRippleKeys.current.length)
+    if(needRemoveRippleKeys.current.length > 0) {
+      rippleRefs.current[needRemoveRippleKeys.current.pop()].current.toggle()
+    }
     rippleCallback.current = cb
-  }, [startTimer.current])
+  }, [])
 
   useImperativeHandle(
     ref,
@@ -239,8 +254,6 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
     className={rippleClasses.root}
     ref={container}
   >
-    <TransitionGroup component={null} exit>
-      {ripples}
-    </TransitionGroup>
+    {ripples}
   </RippleRoot>
 })

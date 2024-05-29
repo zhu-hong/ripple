@@ -153,7 +153,6 @@ const Ripple = forwardRef((props, ref) => {
       onClick?.(event)
     }
   })
-
   const handleKeyUp = useEventCallback((event) => {
     if(
       focusRipple &&
