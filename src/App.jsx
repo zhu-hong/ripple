@@ -39,7 +39,7 @@ function App() {
         <Ripple
           style={{padding:'6px 16px',width:'100%',borderRadius:'4px',fontSize:14,fontWeight:500,color:'white',backgroundColor:'#058373'}}
           focusRipple
-          disabled
+          // disabled
           onClick={console.log}
           onKeyDown={console.log}
         >

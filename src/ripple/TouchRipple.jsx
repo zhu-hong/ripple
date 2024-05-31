@@ -90,16 +90,6 @@ const RippleAnimated = styled(RippleAnimate, forwardRef)`
 export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
   const [ripples, setRipples] = useState([])
   const nextKey = useRef(0)
-  const rippleCallback = useRef(null)
-
-  useEffect(() => {
-    nextKey.current += 0.5
-
-    if (rippleCallback.current) {
-      rippleCallback.current()
-      rippleCallback.current = null
-    }
-  }, [ripples])
 
   const ignoringMouseDown = useRef(false)
   const startTimer = useRef(null)
@@ -118,7 +108,8 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
 
   const rippleRefs = useRef({})
 
-  const startCommit = useCallback(({ rippleX, rippleY, rippleSize, pulsate, cb }) => {
+  const startCommit = useCallback(({ rippleX, rippleY, rippleSize, pulsate }) => {
+    nextKey.current += 1
     rippleRefs.current[nextKey.current] = createRef()
     needRemoveRippleKeys.current = [...new Set([...needRemoveRippleKeys.current, nextKey.current])]
 
@@ -146,7 +137,6 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
         />
       ]
     })
-    rippleCallback.current = cb
   }, [])
 
   const onUnmounted = useCallback((key) => {
@@ -154,7 +144,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
     setRipples((ripples) => ripples.filter((r) => +r.key !== +key))
   }, [])
 
-  const start = useCallback((event = {}, options = {}, cb = () => {}) => {
+  const start = useCallback((event = {}, options = {}) => {
     const {
       pulsate = false,
       center = centerProp || options.pulsate,
@@ -200,7 +190,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
     if(event.touches) {
       if(startTimerCommit.current === null) {
         startTimerCommit.current = () => {
-          startCommit({ rippleX, rippleY, rippleSize, pulsate, cb })
+          startCommit({ rippleX, rippleY, rippleSize, pulsate })
         }
         startTimer.current = setTimeout(() => {
           if(startTimerCommit.current) {
@@ -210,7 +200,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
         }, DELAY_RIPPLE)
       }
     } else {
-      startCommit({ rippleX, rippleY, rippleSize, pulsate, cb })
+      startCommit({ rippleX, rippleY, rippleSize, pulsate })
     }
   }, [centerProp, startCommit, startTimer])
 
@@ -242,7 +232,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
         onUnmounted(key)
       }
     }
-    rippleCallback.current = cb
+    cb?.()
   }, [])
 
   useImperativeHandle(
