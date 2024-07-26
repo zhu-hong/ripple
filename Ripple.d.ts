@@ -61,11 +61,9 @@ interface RippleProps {
   disableRipple?: boolean;
   focusRipple?: boolean;
   centerRipple?: boolean;
-  disabledClassName?: string;
-  focusVisibleClassName?: string;
   style?: React.CSSProperties;
-  onFocusVisible?: React.FocusEventHandler<HTMLElement>;
-  ref?: React.ForwardedRef<unknown>;
+  onFocusVisible?: React.FocusEventHandler<unknown>;
+  ref?: React.MutableRefObject<unknown>;
 }
 
 declare const Ripple: OverridableComponent<{

@@ -19,6 +19,7 @@ function App() {
           target='_blank'
           href='https://github.com'
           title='kale'
+          className='mkbk'
         >
           按钮
         </Ripple>

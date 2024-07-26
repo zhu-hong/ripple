@@ -1,7 +1,6 @@
 import { forwardRef, useRef, useEffect, useState, useMemo, useCallback } from 'react'
 import { jsx } from 'react/jsx-runtime'
 import { styled, setup } from 'goober'
-import clsx from 'clsx'
 import { TouchRipple } from './TouchRipple.jsx'
 import { useForkRef } from './useForkRef.js'
 import { useIsFocusVisible } from './useIsFocusVisible.js'
@@ -26,21 +25,19 @@ const Ripple = forwardRef((props, ref) => {
     disableRipple = false,
     focusRipple = false,
     centerRipple = false,
-    disabledClassName,
-    focusVisibleClassName,
     onClick,
     onMouseDown,
-    onContextMenu,
-    onDragLeave,
     onMouseUp,
     onMouseLeave,
     onTouchStart,
     onTouchEnd,
     onTouchMove,
-    onBlur,
-    onFocus,
     onKeyDown,
     onKeyUp,
+    onFocus,
+    onBlur,
+    onContextMenu,
+    onDragLeave,
     onFocusVisible,
     ...other
   } = props
@@ -84,8 +81,6 @@ const Ripple = forwardRef((props, ref) => {
   }, [])
 
   const handleMouseDown = useRippleHandler('start', onMouseDown)
-  const handleContextMenu = useRippleHandler('stop', onContextMenu)
-  const handleDragLeave = useRippleHandler('stop', onDragLeave)
   const handleMouseUp = useRippleHandler('stop', onMouseUp)
   const handleMouseLeave = useRippleHandler('stop', (event) => {
     if(focusVisible) {
@@ -93,30 +88,10 @@ const Ripple = forwardRef((props, ref) => {
     }
     onMouseLeave?.(event)
   })
+
   const handleTouchStart = useRippleHandler('start', onTouchStart)
   const handleTouchEnd = useRippleHandler('stop', onTouchEnd)
   const handleTouchMove = useRippleHandler('stop', onTouchMove)
-  const handleBlur = useRippleHandler('stop', (event) => {
-    handleBlurVisible(event)
-    if(isFocusVisibleRef.current === false) {
-      setFocusVisible(false)
-    }
-    onBlur?.(event)
-  }, false)
-  const handleFocus = useEventCallback((event) => {
-    if(!buttonRef.current) {
-      buttonRef.current = event.currentTarget
-    }
-
-    handleFocusVisible(event)
-    if(isFocusVisibleRef.current === true) {
-      setFocusVisible(true)
-
-      onFocusVisible?.(event)
-    }
-
-    onFocus?.(event)
-  })
 
   const keydownRef = useRef(null)
   const handleKeyDown = useEventCallback((event) => {
@@ -176,6 +151,31 @@ const Ripple = forwardRef((props, ref) => {
     }
   })
 
+  const handleFocus = useEventCallback((event) => {
+    if(!buttonRef.current) {
+      buttonRef.current = event.currentTarget
+    }
+
+    handleFocusVisible(event)
+    if(isFocusVisibleRef.current === true) {
+      setFocusVisible(true)
+
+      onFocusVisible?.(event)
+    }
+
+    onFocus?.(event)
+  })
+  const handleBlur = useRippleHandler('stop', (event) => {
+    handleBlurVisible(event)
+    if(isFocusVisibleRef.current === false) {
+      setFocusVisible(false)
+    }
+    onBlur?.(event)
+  }, false)
+
+  const handleContextMenu = useRippleHandler('stop', onContextMenu)
+  const handleDragLeave = useRippleHandler('stop', onDragLeave)
+
   const buttonProps = useMemo(() => {
     const buttonProps = {}
     if(as === 'button') {
@@ -201,20 +201,19 @@ const Ripple = forwardRef((props, ref) => {
     tabIndex={disabled ? -1 : tabIndex}
     href={href}
     to={to}
-    className={clsx(props.className, disabled && disabledClassName, focusVisible && focusVisibleClassName)}
     onClick={onClick}
     onMouseDown={handleMouseDown}
-    onContextMenu={handleContextMenu}
-    onDragLeave={handleDragLeave}
-    onKeyUp={handleKeyUp}
+    onMouseUp={handleMouseUp}
     onMouseLeave={handleMouseLeave}
     onTouchStart={handleTouchStart}
     onTouchEnd={handleTouchEnd}
     onTouchMove={handleTouchMove}
-    onBlur={handleBlur}
-    onFocus={handleFocus}
     onKeyDown={handleKeyDown}
-    onMouseUp={handleMouseUp}
+    onKeyUp={handleKeyUp}
+    onFocus={handleFocus}
+    onBlur={handleBlur}
+    onContextMenu={handleContextMenu}
+    onDragLeave={handleDragLeave}
     {...buttonProps}
     {...other}
   >
