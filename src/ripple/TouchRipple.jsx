@@ -95,6 +95,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
   const startTimer = useRef(null)
 
   const needRemoveRippleKeys = useRef([])
+  const rippleToggles = useRef({})
 
   useEffect(() => {
     return () => {
@@ -106,11 +107,8 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
   const startTimerCommit = useRef(null)
   const container = useRef(null)
 
-  const rippleRefs = useRef({})
-
   const startCommit = useCallback(({ rippleX, rippleY, rippleSize, pulsate }) => {
     nextKey.current += 1
-    rippleRefs.current[nextKey.current] = createRef()
     needRemoveRippleKeys.current = [...new Set([...needRemoveRippleKeys.current, nextKey.current])]
 
     setRipples((oldRipples) => {
@@ -119,7 +117,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
         <RippleAnimated
           key={nextKey.current}
           flag={nextKey.current}
-          ref={rippleRefs.current[nextKey.current]}
+          toggles={rippleToggles.current}
           classes={{
             ripple: rippleClasses.ripple,
             rippleVisible: rippleClasses.rippleVisible,
@@ -140,7 +138,7 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
   }, [])
 
   const onUnmounted = useCallback((key) => {
-    delete rippleRefs.current[key]
+    delete rippleToggles.current[key]
     setRipples((ripples) => ripples.filter((r) => +r.key !== +key))
   }, [])
 
@@ -225,9 +223,9 @@ export const TouchRipple = forwardRef(({ center: centerProp = false }, ref) => {
 
     const key = needRemoveRippleKeys.current.pop()
     if(key !== undefined) {
-      const ripple = rippleRefs.current[key].current
-      if(ripple !== null) {
-        ripple.toggle()
+      const toggle = rippleToggles.current[key]
+      if(typeof toggle === 'function') {
+        toggle()
       } else {
         onUnmounted(key)
       }

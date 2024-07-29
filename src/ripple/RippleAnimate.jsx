@@ -1,8 +1,9 @@
 import { forwardRef, useImperativeHandle } from 'react'
 import clsx from 'clsx'
 import { useTransition } from 'react-transition-state'
+import { useEffect } from 'react'
 
-export const RippleAnimate = forwardRef(({ className, classes, rippleX, rippleY, rippleSize, timeout, pulsate= false, flag, onUnmounted }, ref) => {
+export const RippleAnimate = ({ className, classes, rippleX, rippleY, rippleSize, timeout, toggles, pulsate= false, flag, onUnmounted }) => {
   const [{ status }, toggle] = useTransition({
     timeout,
     initialEntered: true,
@@ -14,9 +15,9 @@ export const RippleAnimate = forwardRef(({ className, classes, rippleX, rippleY,
     },
   })
 
-  useImperativeHandle(ref, () => ({
-    toggle,
-  }), [toggle])
+  useEffect(() => {
+    toggles[flag] = toggle
+  }, [flag, toggle])
 
   return <span
     className={clsx(className, classes.ripple, classes.rippleVisible, {
@@ -36,4 +37,4 @@ export const RippleAnimate = forwardRef(({ className, classes, rippleX, rippleY,
       })}
     />
   </span>
-})
+}
